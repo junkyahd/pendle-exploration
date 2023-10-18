@@ -15,7 +15,12 @@ jobs:
            python-version: "3.10"
        - name: run data update
          run: |
-            runScript.py         
+            echo "Run, Build Application using scripts"
+            python3 -c "
+            scripts = ['./runScript.py'] 
+            for script in scripts:
+            with open(script, 'r') as file:
+               exec(file.read())"
   
        - name: commit files
          run: |
