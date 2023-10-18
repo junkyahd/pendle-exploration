@@ -1,7 +1,7 @@
 name: Run cron job
 on:     
    schedule:    
-     - cron: '*/15 * * * *' 
+     - cron: '*/1 * * * *' 
 jobs:  
   build:    
     runs-on: [self-hosted, universal]    
