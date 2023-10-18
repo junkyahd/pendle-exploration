@@ -1,0 +1,19 @@
+name: Run cron job
+on:     
+   schedule:    
+     - cron: */15 * * * * 
+jobs:  
+  build:    
+    runs-on: [self-hosted, universal]    
+    steps:      
+      - name: run data update        
+        run: python runScript.py         
+
+      - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
+          git push
+          
