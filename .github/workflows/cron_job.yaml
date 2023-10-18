@@ -19,8 +19,8 @@ jobs:
             python3 -c "
             scripts = ['./runScript.py'] 
             for script in scripts:
-            with open(script, 'r') as file:
-               exec(file.read())"
+               with open(script, 'r') as file:
+                  exec(file.read())"
   
        - name: commit files
          run: |
