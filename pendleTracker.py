@@ -6,6 +6,7 @@ from datetime import datetime
 import fxns as f
 import pprint
 
+trackingDict = {}
 
 sy_addr = '0xE05082B184a34668CD8A904D85FA815802BBb04c'
 
@@ -343,29 +344,29 @@ def main_run():
     getInterestRateModelDataCRV()
     getSyData()
 
-    print("MKT DATA: ")
-    pprint.pprint(mkt_data_dict)
-    print("CRV DATA: ")
-    pprint.pprint(crvData)
-    print("CRV USD DATA: ")
-    pprint.pprint(crvUSDData)
-
-    print("I-RATE MODEL crvUSD: ")
-    pprint.pprint(iRateModel)
-
-    print("I-RATE MODEL CRV: ")
-    pprint.pprint(iRateModelCRV)
-
-
-    print("SY DATA: ")
-    pprint.pprint(sy_data)
-
-
-    print("CRV USD RATE: ", f.eth_convert(crvUSDRate))
-
-    print("CRV RATE: ", f.eth_convert(crvRate))
-
-    print("LONG YIELD RATE: ", longYieldRate)
+    # print("MKT DATA: ")
+    # pprint.pprint(mkt_data_dict)
+    # print("CRV DATA: ")
+    # pprint.pprint(crvData)
+    # print("CRV USD DATA: ")
+    # pprint.pprint(crvUSDData)
+    #
+    # print("I-RATE MODEL crvUSD: ")
+    # pprint.pprint(iRateModel)
+    #
+    # print("I-RATE MODEL CRV: ")
+    # pprint.pprint(iRateModelCRV)
+    #
+    #
+    # print("SY DATA: ")
+    # pprint.pprint(sy_data)
+    #
+    #
+    # print("CRV USD RATE: ", f.eth_convert(crvUSDRate))
+    #
+    # print("CRV RATE: ", f.eth_convert(crvRate))
+    #
+    # print("LONG YIELD RATE: ", longYieldRate)
 
 
 main_run()
