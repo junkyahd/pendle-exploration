@@ -20,7 +20,7 @@ build==1.0.3
 cachetools==5.3.1
 cargo==0.3
 cbor2==5.4.6
-certifi==2023.5.7
+certifi>=2023.7.22
 cffi==1.15.1
 charset-normalizer==3.1.0
 click==8.1.7
