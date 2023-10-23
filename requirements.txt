@@ -214,3 +214,5 @@ zope.hookable==5.4
 zope.interface==6.0
 zope.lifecycleevent==4.4
 zope.proxy==5.0.0
+
+seaborn~=0.13.0
