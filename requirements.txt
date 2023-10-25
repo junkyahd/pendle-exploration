@@ -216,3 +216,5 @@ zope.lifecycleevent==4.4
 zope.proxy==5.0.0
 
 seaborn~=0.13.0
+invoke~=2.2.0
+pelican~=4.8.0
