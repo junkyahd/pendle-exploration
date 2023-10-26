@@ -7,7 +7,6 @@ import math
 import numpy as np
 import pandas as pd
 from matplotlib import ticker
-from matplotlib.ticker import AutoMinorLocator
 
 addr = '0xc9becdbc62efb867cb52222b34c187fb170379c6'
 
@@ -19,7 +18,7 @@ u = 'https://api-v2.pendle.finance/core/v2/1/markets/' + addr + '/history?time_f
 
 r = requests.get(u)
 res = r.json()['results'] # timestamp,  'underlyingInterestApy', 'underlyingRewardApy', 'underlyingApy',
-                        # 'impliedApy','ytFloatingApy' ,'ptDiscount'
+                          # 'impliedApy','ytFloatingApy' ,'ptDiscount'
 
 ts_lst = []
 underlyingInterestAPY_lst = []
@@ -90,14 +89,17 @@ median_crv_util = median_lst(crvUtil)
 sns.set_theme()
 sns.set_style('whitegrid')
 
-rng_fmt = []
-rng = pd.date_range(start= util_ts[0], end=util_ts[len(util_ts) - 1], periods=12)
-ticks = []
-for val in rng:
-    rng_fmt.append(val.isoformat()[0:10] + '\n' + val.isoformat()[11:16])
-    ticks.append(val.isoformat())
+util_ts_fmt = []
+for ts in util_ts:
+    util_ts_fmt.append(ts[0:10] + '\n' + ts[11:16])
 
-fig = plt.figure(figsize=(16,8))
+
+
+
+fig = plt.figure(figsize=(16, 8))
+
+
+
 
 uopt = 0.50
 
@@ -106,42 +108,26 @@ u.fill(uopt)
 a = np.empty(len(util_ts))
 a.fill(avg_crv_util)
 
-util_df = pd.DataFrame(crvUtil, index=util_ts, columns=['Utilization'])
+util_df = pd.DataFrame(crvUtil, index=util_ts_fmt, columns=['Utilization'])
 util_df['Util Optimal'] = u
 util_df['Avg Util'] = a
 
-ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
+ax = fig.add_axes((0.1, 0.15, 0.8, 0.8))
 
-ax.plot(util_ts, util_df)
+ax.plot(util_ts_fmt, util_df)
 
 l = len(util_ts)
 twelve = math.floor(l / 12)
 
-func = lambda x, pos: datetime.st
-
 ax.xaxis.set_major_locator(ticker.MultipleLocator(twelve))
-ax.xaxis.set_major_formatter(ticker.FuncFormatter(func))
-
-
-# ax.locator_params(axis='x', nbins=12)
-#
-# ax.set_xlim(util_ts[0], util_ts[len(util_ts) - 1])
-#
-# plt.xticks(rng_fmt)
-
-# ax.xaxis.set_minor_locator(AutoMinorLocator())
-
-
-# plt.xticks(ticks, rng_fmt)
-# #
-# # ax.set_xticks(ticks)
-# # ax.set_xticklabels(rng_fmt)
 
 s, e = ax.get_ylim()
 ax.set_yticks(np.arange(round(s, 2), e, 0.0025))
 
-plt.xlabel('Timestamp')
-plt.ylabel('CRV Utilization Rate')
+
+
+plt.xlabel('Timestamp', fontsize=12)
+plt.ylabel('CRV Utilization Rate', fontsize=12)
 
 ax.legend(['Utilization', 'Optimal Util', 'Avg Utilization'])
 
@@ -163,70 +149,70 @@ d = {
 
 df = pd.DataFrame(d)
 
-fig1 = plt.figure(figsize=(12,6))
 
-ax1 = fig1.add_axes([0.1,0.1,0.8,0.8])
+df_ts_fmt = []
+for ts in df['Timestamp']:
+    df_ts_fmt.append(ts[0:10] + '\n' + ts[11:16])
 
-len_df = len(df['Timestamp'])
-rng_ts = pd.date_range(start= df['Timestamp'][0], end=df['Timestamp'][len_df - 1], periods=12)
-rng_ticks = []
-rng_ts_fmt = []
-for val in rng_ts:
-    rng_ts_fmt.append(val.isoformat()[0:10] + '\n' + val.isoformat()[11:16])
-    rng_ticks.append(val.isoformat())
+fig1 = plt.figure(figsize=(12, 6))
 
-ax1.plot(df['Timestamp'], df['YT Px'], color='deepskyblue')
+
+ax1 = fig1.add_axes((0.1, 0.15, 0.8, 0.8))
+
+
+ax1.plot(df_ts_fmt, df['YT Px'], color='deepskyblue')
+
+l2 = len(df_ts_fmt)
+twelve_2 = math.floor(l2 / 10)
+
+
+
+ax1.xaxis.set_major_locator(ticker.MultipleLocator(twelve_2))
+
 
 s, e = ax1.get_ylim()
-ax1.set_yticks(np.arange(round(s, 2) - 0.001,e + 0.001,0.0005))
+ax1.set_yticks(np.arange(round(s, 2) - 0.001, e + 0.001, 0.0005))
 
-# plt.xticks(rng_ts_fmt, rng_ticks)
-
-ax.set_xticks(rng_ticks)
-ax.set_xticklabels(rng_ts_fmt)
-
-
-plt.xlabel('Timestamp')
-plt.ylabel('YT Price')
+plt.xlabel('Timestamp', fontsize=12)
+plt.ylabel('YT Price', fontsize=12)
 
 plt.savefig('figs/yt_price.png')
 plt.savefig('content/images/yt_price.png')
 
 
-fig1 = plt.figure(figsize=(12,6))
+fig1 = plt.figure(figsize=(12, 6))
 
-ax1 = fig1.add_axes([0.1,0.1,0.8,0.8])
 
-# ax1.plot(df['Timestamp'], df['PT Px'], color='red')
-ax1.plot(df['Timestamp'], df['PT Px'], color='springgreen')
+
+ax1 = fig1.add_axes((0.1, 0.15, 0.8, 0.8))
+
+
+ax1.plot(df_ts_fmt, df['PT Px'], color='springgreen')
+
+ax1.xaxis.set_major_locator(ticker.MultipleLocator(twelve_2))
+
 
 s, e = ax1.get_ylim()
-ax1.set_yticks(np.arange(round(s, 2) + 0.0025,e + 0.0025,0.00125))
+ax1.set_yticks(np.arange(round(s, 2) + 0.0025, e + 0.0025, 0.00125))
 
-
-ax.set_xticks(rng_ticks)
-ax.set_xticklabels(rng_ts_fmt)
-
-plt.xlabel('Timestamp')
-plt.ylabel('PT Price')
+plt.xlabel('Timestamp', fontsize=12)
+plt.ylabel('PT Price', fontsize=12)
 
 plt.savefig('figs/pt_price.png')
 plt.savefig('content/images/pt_price.png')
 
 
-fig1 = plt.figure(figsize=(12,6))
+fig1 = plt.figure(figsize=(12, 6))
 
-ax1 = fig1.add_axes([0.1,0.1,0.8,0.8])
+ax1 = fig1.add_axes((0.1, 0.15, 0.8, 0.8))
 
-# ax1.plot(df['Timestamp'], df['PT Px'], color='red')
-ax1.plot(df['Timestamp'], df['LongYield APY'], color='deeppink')
+ax1.plot(df_ts_fmt, df['LongYield APY'], color='deeppink')
+
+ax1.xaxis.set_major_locator(ticker.MultipleLocator(twelve_2))
+
 
 s, e = ax1.get_ylim()
 ax1.set_yticks(np.arange(round(s, 2),e,0.05))
-
-
-ax.set_xticks(rng_ticks)
-ax.set_xticklabels(rng_ts_fmt)
 
 plt.xlabel('Timestamp')
 plt.ylabel('Long Yield APY')
@@ -234,25 +220,24 @@ plt.ylabel('Long Yield APY')
 plt.savefig('figs/longYield.png')
 plt.savefig('content/images/longYield.png')
 
+fig1 = plt.figure(figsize=(14, 7))
+
+ax1 = fig1.add_axes((0.1, 0.15, 0.8, 0.8))
 
 
-fig1 = plt.figure(figsize=(14,7))
 
-ax1 = fig1.add_axes([0.1,0.1,0.8,0.8])
 
-# ax1.plot(df['Timestamp'], df['PT Px'], color='red')
-ax1.plot(df['Timestamp'], df['Underlying APY'], color='orangered')
-ax1.plot(df['Timestamp'], df['Implied APY'], color='cyan')
+ax1.plot(df_ts_fmt, df['Underlying APY'], color='orangered')
+ax1.plot(df_ts_fmt, df['Implied APY'], color='cyan')
+
+ax1.xaxis.set_major_locator(ticker.MultipleLocator(twelve_2))
+
 
 s, e = ax1.get_ylim()
-ax1.set_yticks(np.arange(round(s, 2),e,0.0025))
+ax1.set_yticks(np.arange(round(s, 2), e, 0.0025))
 
-
-ax.set_xticks(rng_ticks)
-ax.set_xticklabels(rng_ts_fmt)
-
-plt.xlabel('Timestamp')
-plt.ylabel('APY')
+plt.xlabel('Timestamp', fontsize=12)
+plt.ylabel('APY', fontsize=12)
 
 plt.savefig('figs/underlying_implied.png')
 plt.savefig('content/images/underlying_implied.png')

@@ -1,6 +1,5 @@
 Title: Pendle Dashboard 
-Date: 2023-10-24 12:31
-Category: Analysis
+Date: 2023-10-24 12:31 
 
 ![Photo](/images/util.png)
 ![Photo](/images/pt_price.png)
